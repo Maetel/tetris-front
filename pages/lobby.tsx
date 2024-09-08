@@ -2,40 +2,37 @@ import ObjectViewer from "@/components/ObjectViewer";
 import ENV_SERVER from "@/scripts/ENV_SERVER";
 import { useSocket } from "@/scripts/providers/SocketProvider";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
-function Home() {
-  const { connect, connected } = useSocket();
+function Lobby() {
+  const { connected, notification, users } = useSocket();
   const router = useRouter();
-  const [userCount, setUserCount] = useState(null);
-
   useEffect(() => {
-    if (connected) {
-      router.push("/tetris");
+    if (!connected) {
+      router.push("/");
     }
   }, [connected]);
-
-  useEffect(() => {
-    fetch("/api/user/count")
-      .then((res) => res.json())
-      .then((res) => {
-        setUserCount(res?.count ?? null);
-      });
-  }, []);
-
   return (
     <div style={{ position: "relative" }}>
       Home
-      <div>
-        <button
-          onClick={() => {
-            connect();
-          }}
-        >
-          connect
-        </button>
+      <div
+        style={{
+          position: "fixed",
+          top: 20,
+          right: 20,
+          border: "1px solid black",
+        }}
+      >
+        Users
+        <ObjectViewer object={users}></ObjectViewer>
       </div>
-      <div>Current Users : {userCount === null ? "loading..." : userCount}</div>
+      <div>
+        <button onClick={() => {}}>get user list</button>
+      </div>
+      <div>Connected : {connected}</div>
+      <div>
+        <ObjectViewer object={notification} />
+      </div>
     </div>
   );
 }
@@ -63,4 +60,4 @@ export const getServerSideProps = async () => {
   return { props: {} };
 };
 
-export default Home;
+export default Lobby;
