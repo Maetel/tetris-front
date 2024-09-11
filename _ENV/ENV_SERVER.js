@@ -76,9 +76,9 @@ ENV_PUBLIC.init_ENV_PUBLIC();
 var ENV_SERVER = class _ENV_SERVER extends ENV_PUBLIC {
   ////////////////////////////////////////////////////////////////////////
   // Common Area
+  static SERVER_URL = process.env.SERVER_URL_OVERRIDE ?? process.env.SERVER_URL;
   ////////////////////////////////////////////////////////////////////////
   // Forked Area
-  static SERVER_URL = process.env.SERVER_URL_OVERRIDE ?? (ENV_PUBLIC.IS_DEV ? process.env.SERVER_URL_DEV : ENV_PUBLIC.IS_QA ? process.env.SERVER_URL_QA : ENV_PUBLIC.IS_PROD ? process.env.SERVER_URL_PROD : null);
   ////////////////////////////////////////////////////////////////////////
   // Init Area
   static is_ENV_SERVER_init = false;
